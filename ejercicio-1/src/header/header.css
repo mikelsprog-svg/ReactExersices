@@ -5,10 +5,11 @@
     padding: 30px;
     border-radius: 15px; /* bordes curvados */
     margin-bottom: 10px;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: sticky;
+    top: 0;
 }
 .logo {
     position: absolute;
