@@ -5,7 +5,7 @@
 1. [Racional previo: ¿qué hook encaja dónde?](#racional-previo)
 2. [Paso 1 – Crear el proyecto](#paso-1)
 3. [Paso 2 – CSS global y variables de tema](#paso-2)
-4. [Paso 3 – useContext: AppContext](#paso-3)
+4. [Paso 3 – useContext: AppProvider](#paso-3)
 5. [Paso 4 – Custom Hook: useFavorites](#paso-4)
 6. [Paso 5 – Custom Hook: useAnimals (useEffect [])](#paso-5)
 7. [Paso 6 – App.jsx (useEffect sin deps + useRef)](#paso-6)
@@ -82,7 +82,7 @@ Definimos dos "conjuntos" de variables CSS: uno para el tema oscuro (por defecto
 
 ---
 
-## Paso 3 – useContext: AppContext <a name="paso-3"></a>
+## Paso 3 – useContext: AppProvider <a name="paso-3"></a>
 
 ### ¿Cuándo usar useContext?
 
@@ -93,12 +93,12 @@ En esta app, `userName` y `theme` los necesitan `Header`, `AnimalCard` y `Favori
 ### Implementación en tres partes
 
 ```jsx
-// src/context/AppContext.jsx
+// src/context/AppProvider.jsx
 
 import { createContext, useContext, useState } from "react";
 
 // 1️⃣ Crear el contexto (valor por defecto null para detectar usos fuera del Provider)
-export const AppContext = createContext(null);
+export const AppProvider = createContext(null);
 
 // 2️⃣ Provider: envuelve la app y expone los valores
 export function AppProvider({ children }) {
@@ -114,15 +114,15 @@ export function AppProvider({ children }) {
   }
 
   return (
-    <AppContext.Provider value={{ theme, toggleTheme, userName }}>
+    <AppProvider.Provider value={{ theme, toggleTheme, userName }}>
       {children}
-    </AppContext.Provider>
+    </AppProvider.Provider>
   );
 }
 
 // 3️⃣ Hook de conveniencia para consumir el contexto
 export function useAppContext() {
-  const ctx = useContext(AppContext);
+  const ctx = useContext(AppProvider);
   if (!ctx) throw new Error("useAppContext debe usarse dentro de <AppProvider>");
   return ctx;
 }
@@ -130,8 +130,8 @@ export function useAppContext() {
 
 **Tres momentos distintos:**
 1. `createContext` → define la "caja" donde viven los datos globales.
-2. `<AppContext.Provider value={...}>` → "inyecta" los datos en el árbol de componentes.
-3. `useContext(AppContext)` (o el helper `useAppContext()`) → "extrae" los datos desde cualquier componente hijo.
+2. `<AppProvider.Provider value={...}>` → "inyecta" los datos en el árbol de componentes.
+3. `useContext(AppProvider)` (o el helper `useAppContext()`) → "extrae" los datos desde cualquier componente hijo.
 
 > 📖 **Doc:** [createContext](https://react.dev/reference/react/createContext) · [useContext](https://react.dev/reference/react/useContext)
 
@@ -349,7 +349,7 @@ export default function FavoritesSidebar({ animals, favoritesHook }) {
 ## Mapa conceptual final <a name="mapa-final"></a>
 
 ```
-AppProvider (AppContext: userName, theme, toggleTheme)
+AppProvider (AppProvider: userName, theme, toggleTheme)
  │
  └── AppContent
       ├── [useState] species, renderCount (useRef)

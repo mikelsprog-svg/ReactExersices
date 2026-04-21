@@ -64,7 +64,7 @@ Gestiona las variables de estado de la aplicación:
 
 ### 3. `useContext`
 
-Crea un contexto `AppContext` que exponga globalmente:
+Crea un contexto `AppProvider` que exponga globalmente:
 - `userName` — nombre del usuario (cadena fija, como `"Ada Lovelace"`).
 - `theme` — tema actual (`"dark"` / `"light"`).
 - `toggleTheme()` — función para cambiar el tema.
@@ -83,7 +83,7 @@ src/
 ├── main.jsx
 ├── index.css                     ← reset + variables CSS (:root y :root.light)
 ├── context/
-│   └── AppContext.jsx             ← createContext + AppProvider + useAppContext
+│   └── AppProvider.jsx             ← createContext + AppProvider + useAppContext
 ├── hooks/
 │   ├── useFavorites.js            ← Custom Hook: gestión de favoritos
 │   └── useAnimals.js              ← Custom Hook: carga y filtrado de animales
