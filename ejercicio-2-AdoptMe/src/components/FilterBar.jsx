@@ -7,12 +7,17 @@ const SPECIES = [
   { value: "rabbit", label: "🐰 Conejos" },
 ];
 
-export default function FilterBar({ activeSpecies, onSpeciesChange }) {
+export default function FilterBar({ activeSpecie, onSpeciesChange }) {
+
 
 
   return (
     <div className="filter-bar">
+      {SPECIES.map( specie => (
 
+<button onClick={()=>onSpeciesChange(specie.value)}> {specie.label} </button>
+
+          ))}
 
     </div>
   );

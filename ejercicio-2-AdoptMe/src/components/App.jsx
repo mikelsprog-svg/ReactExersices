@@ -22,6 +22,7 @@ function AppContent() {
   return (
     <div className="app-layout">
       <Header />
+        <FilterBar species={species} onSpeciesChange={setSpecies} />
         <AnimalGrid animals={animals} loading={loading} favoritesHook={favoritesHook} />
         <FavoritesSidebar animals={animals}  favoritesHook={favoritesHook} />
 
